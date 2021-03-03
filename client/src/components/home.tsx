@@ -10,33 +10,57 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   container: {
     display: "flex",
+    alignItems: "center",
+    // justifyContent: "center",
+    flexDirection: "column",
+    "& > *": {
+      marginBottom: 10,
+    },
+    height: "100%",
+    marginTop: "15%",
+  },
+  innerContainer: {
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
     "& > *": {
       marginBottom: 10,
     },
+    height: "100%",
   },
   flowLogoContainer: {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    right: 10,
-    bottom: 10,
     "& > img": {
       width: 100,
     },
   },
   adventureLogoContainer: {
-    position: "absolute",
-    left: 10,
-    bottom: 10,
     "& > img": {
       width: 150,
     },
   },
   txLink: {
     marginLeft: 10,
+  },
+  title: {
+    fontFamily: '"Shippori Mincho", serif',
+    fontSize: "2em",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 10,
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+    padding: 10,
+    boxSizing: "border-box",
+  },
+  totalSupply: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
@@ -69,15 +93,6 @@ export const Home = () => {
     if (user) {
       if (user.addr) {
         getAndSetBalance();
-        // getBalance(user.addr).then((val) => {
-        //   console.log("balance is ", val);
-        //   if (val === null) {
-        //     setBalance(null);
-        //   } else {
-        //     setBalance(Math.trunc(val));
-        //     setIsSetupVault(true);
-        //   }
-        // });
       }
       getTotalSupply().then((val) => setTotalSupply(Math.trunc(val)));
     }
@@ -91,9 +106,6 @@ export const Home = () => {
     } else {
       requestToken();
     }
-    // send request to backend
-    // show loading symbol
-    // update balance frontend
   };
 
   const requestToken = () => {
@@ -120,20 +132,19 @@ export const Home = () => {
 
   return (
     <div className={classes.container}>
-      <div>deeno token total supply: {totalSupply}</div>
+      <div className={classes.title}>Deeno Token</div>
+      {/* <div className={classes.innerContainer}> */}
       <div>address: {user?.addr}</div>
       <div>your deeno tokens: {balance === null ? 0 : balance}</div>
-      {/* {(!isSetupVault || !balance) && ( */}
       <Button
         disabled={isTransferring}
         onClick={clickGetToken}
-        variant="contained"
+        variant="outlined"
+        color="primary"
       >
         get deeno token
       </Button>
-      {/* )} */}
       {isTransferring && <LinearProgress style={{ width: 200 }} />}
-      {/* {!isSetupVault && <Button onClick={clickSetupVault} variant="contained">setup vault</Button>} */}
       {latestTxId && (
         <div>
           view your transaction here:
@@ -148,14 +159,22 @@ export const Home = () => {
         </div>
       )}
 
-      <div className={classes.flowLogoContainer}>
-        <img alt="flow logo" src={flowLogo} />
-        <div>built on flow blockchain</div>
-      </div>
+      <div className={classes.footer}>
+        <div className={classes.flowLogoContainer}>
+          <img alt="flow logo" src={flowLogo} />
+          <div>built on flow blockchain</div>
+        </div>
 
-      <div className={classes.adventureLogoContainer}>
-        <img alt="adventure logo" src={adventureLogo} />
+        <div className={classes.totalSupply}>
+          <div>deeno token</div>
+          <div>total supply: {totalSupply}</div>
+        </div>
+
+        <div className={classes.adventureLogoContainer}>
+          <img alt="adventure logo" src={adventureLogo} />
+        </div>
       </div>
+      {/* </div> */}
     </div>
   );
 };

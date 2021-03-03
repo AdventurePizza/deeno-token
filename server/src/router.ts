@@ -6,25 +6,7 @@ import http from "http";
 const app = express();
 const server = http.createServer(app);
 
-// import path from 'path'
-
 const port = process.env.PORT || 8000;
-
-// const app = express();
-// app.use(express.json());
-// app.use(express.urlencoded());
-
-// app.listen(port, () => {
-//   console.log("listening on port ", port);
-// });
-
-// app.post("/transfer-token", (req, res) => {
-//   console.log(req.body);
-//   console.log("got a request ", req.body);
-//   setTimeout(() => {
-//     res.status(200).end();
-//   }, 3000);
-// });
 
 export type RouterResponse = Promise<{ err?: Error; res?: {} }>;
 
@@ -35,9 +17,6 @@ export default class Router {
     Router.app.use(cors());
     Router.app.use(express.urlencoded({ extended: true }));
     Router.app.use(express.json());
-    // Router.app.use(
-    //   express.static(path.resolve(__dirname, "..", "..", "build"))
-    // );
   }
 
   private static async onResponse(
